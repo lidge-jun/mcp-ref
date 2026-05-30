@@ -1,0 +1,118 @@
+{
+  "version": 2,
+  "servers": {
+    "context7": {
+      "name": "Context7",
+      "description": "Library/framework docs lookup. Prevents API hallucination by fetching current documentation for React, Next.js, Django, etc.",
+      "category": "development",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@upstash/context7-mcp"]
+      },
+      "tags": ["docs", "library"],
+      "url": "https://github.com/upstash/context7"
+    },
+    "playwright": {
+      "name": "Playwright",
+      "description": "Browser automation via accessibility tree (not screenshots). Cross-browser testing, scraping JS-heavy pages, visual verification.",
+      "category": "testing",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@playwright/mcp@latest"]
+      },
+      "tags": ["browser", "testing"],
+      "url": "https://github.com/microsoft/playwright-mcp"
+    },
+    "figma": {
+      "name": "Figma",
+      "description": "Bidirectional design-to-code. Read components/variables/layout from Figma, write back to canvas. Code Connect keeps generated code aligned.",
+      "category": "design",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@anthropic/mcp-server-figma"],
+        "env": {
+          "FIGMA_ACCESS_TOKEN": "YOUR_TOKEN"
+        }
+      },
+      "tags": ["design", "figma", "frontend"],
+      "url": "https://github.com/anthropics/mcp-server-figma"
+    },
+    "sentry": {
+      "name": "Sentry",
+      "description": "Error tracking. Pull stack traces, error events, frequency data. Workflow: paste issue ID -> agent reads trace -> writes fix -> opens PR.",
+      "category": "development",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@sentry/mcp-server"],
+        "env": {
+          "SENTRY_AUTH_TOKEN": "YOUR_TOKEN"
+        }
+      },
+      "tags": ["errors", "monitoring"],
+      "url": "https://github.com/getsentry/sentry-mcp"
+    },
+    "supabase": {
+      "name": "Supabase",
+      "description": "Database schema exploration, SQL execution, TypeScript type generation, database branching. Official Claude connector.",
+      "category": "database",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@supabase/mcp-server"],
+        "env": {
+          "SUPABASE_URL": "YOUR_URL",
+          "SUPABASE_KEY": "YOUR_KEY"
+        }
+      },
+      "tags": ["database", "supabase"],
+      "url": "https://github.com/supabase/mcp-server"
+    },
+    "cloudflare": {
+      "name": "Cloudflare (Code Mode)",
+      "description": "2,500+ Cloudflare endpoints with 99.9% token reduction via Code Mode. Workers, KV, D1, R2 management.",
+      "category": "cloud",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@anthropic/mcp-server-cloudflare"]
+      },
+      "tags": ["cloud", "cloudflare", "workers"],
+      "url": "https://github.com/cloudflare/mcp-server-cloudflare"
+    },
+    "stripe": {
+      "name": "Stripe",
+      "description": "Stripe API documentation search + payment integration helpers. OAuth + restricted keys for security.",
+      "category": "development",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@stripe/mcp-server"],
+        "env": {
+          "STRIPE_API_KEY": "YOUR_KEY"
+        }
+      },
+      "tags": ["payments", "stripe"],
+      "url": "https://github.com/stripe/agent-toolkit"
+    },
+    "linear": {
+      "name": "Linear",
+      "description": "Issue tracking integration. Manage issues, sprints, projects from within the agent. Saves context-switching.",
+      "category": "productivity",
+      "type": "local",
+      "config": {
+        "command": "npx",
+        "args": ["-y", "@anthropic/mcp-server-linear"],
+        "env": {
+          "LINEAR_API_KEY": "YOUR_KEY"
+        }
+      },
+      "tags": ["issues", "linear", "project"],
+      "url": "https://github.com/anthropics/mcp-server-linear"
+    }
+  },
+  "_note": "Only genuinely useful MCP servers. Skip: filesystem (CLI built-in), git (CLI), web search (WebSearch built-in), fetch (WebFetch built-in), memory (CLAUDE.md), sequential-thinking (extended thinking built-in). Most of 22k+ community MCPs are redundant wrappers."
+}

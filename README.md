@@ -58,19 +58,9 @@ ACP merged into Google A2A under Linux Foundation. For solo/small teams, A2A is 
 
 ## Harness Origins
 
-Three servers (grep.app, ast-grep, LSP Tools) originated as omo (oh-my-openagent) built-ins but are **standalone installable** via this registry.
-
-### omo (oh-my-openagent) architecture
+Five servers (grep.app, ast-grep, LSP Tools, Tavily, Exa) originated as omo (oh-my-openagent) built-ins but are **standalone installable** via this registry.
 
 omo uses a 3-tier MCP system: built-in → Claude Code `.mcp.json` → skill-embedded YAML.
-Its built-in tools include ripgrep (auto-downloaded binary), ast-grep MCP, LSP MCP, grep.app (remote), and context7.
-
-### omx (oh-my-codex) architecture
-
-omx provides 6 built-in MCP servers (state, memory, code-intel, trace, wiki, hermes).
-`omx_code_intel` wraps tsc/ast-grep/grep behind 9 structured tools — `lsp_find_references` internally calls `grep -rn -w`.
-
-Key insight: these harnesses don't replace grep — they wrap it in structured interfaces (symbols, AST, diagnostics).
 
 ## Adding a Server
 

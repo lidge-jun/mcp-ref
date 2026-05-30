@@ -180,14 +180,5 @@
       "origin": "omo built-in (alternative to Tavily)"
     }
   },
-  "_omx_reference": {
-    "_note": "omx (oh-my-codex) has 6 built-in MCP servers that require omx runtime — NOT standalone installable.",
-    "omx_code_intel": "Code Intelligence: 9 tools wrapping tsc diagnostics + ast-grep search/replace + grep references. 'code-intel' = code intelligence, not Intel CPU.",
-    "omx_state": "Mode/workflow state management",
-    "omx_memory": "Cross-session project memory",
-    "omx_trace": "Agent flow timeline/stats",
-    "omx_wiki": "Persistent project knowledge base",
-    "omx_hermes": "Safe dispatch/status/artifacts coordination"
-  },
-  "_note": "Curated MCP servers. Servers with 'origin' field were originally harness built-ins. omx servers require omx runtime and cannot be installed standalone."
+  "_note": "Curated MCP servers. Servers with 'origin' field were originally omo (oh-my-openagent) built-ins, now standalone installable."
 }

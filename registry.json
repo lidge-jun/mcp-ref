@@ -114,5 +114,53 @@
       "url": "https://github.com/anthropics/mcp-server-linear"
     }
   },
-  "_note": "Only genuinely useful MCP servers. Skip: filesystem (CLI built-in), git (CLI), web search (WebSearch built-in), fetch (WebFetch built-in), memory (CLAUDE.md), sequential-thinking (extended thinking built-in). Most of 22k+ community MCPs are redundant wrappers."
+  "_harness_builtin_reference": {
+    "_description": "These are NOT standalone MCP servers — they are built into omo/omx harnesses. Listed here as reference for what harness-level search/intelligence tools exist.",
+    "omo-grep": {
+      "name": "omo grep (built-in)",
+      "description": "ripgrep binary auto-downloaded per OS. Structural search behind grep/rg backend selection. Not a standalone MCP — built into oh-my-openagent.",
+      "source": "oh-my-openagent/src/tools/grep/",
+      "harness": "omo"
+    },
+    "omo-ast-grep": {
+      "name": "omo ast-grep (built-in MCP)",
+      "description": "AST-level structural search/replace via @ast-grep/napi. Metavariable patterns ($NAME, $$$ARGS). Falls back to npx @ast-grep/cli.",
+      "source": "oh-my-openagent/packages/ast-grep-mcp/",
+      "harness": "omo"
+    },
+    "omo-lsp": {
+      "name": "omo LSP (built-in MCP)",
+      "description": "Language server protocol via vscode-jsonrpc. Diagnostics, symbols, hover, references. Powers code intelligence without IDE.",
+      "source": "oh-my-openagent/packages/lsp-tools-mcp/",
+      "harness": "omo"
+    },
+    "omo-grep-app": {
+      "name": "grep.app (omo default remote)",
+      "description": "Global public code search across GitHub repos. Useful for finding implementation examples. Remote HTTP MCP at https://mcp.grep.app.",
+      "source": "https://mcp.grep.app",
+      "harness": "omo",
+      "standalone_config": {
+        "url": "https://mcp.grep.app/mcp"
+      }
+    },
+    "omx-code-intel": {
+      "name": "omx code-intel (built-in MCP)",
+      "description": "9 tools: LSP diagnostics (tsc wrapper), document/workspace symbols, hover, find references (grep -rn -w), ast_grep search/replace. Pragmatic CLI wrappers, not full LSP.",
+      "source": "oh-my-codex/src/mcp/code-intel-server.ts",
+      "harness": "omx"
+    },
+    "omx-state": {
+      "name": "omx state (built-in MCP)",
+      "description": "Mode/workflow state management for omx harness.",
+      "source": "oh-my-codex/src/mcp/state-server.ts",
+      "harness": "omx"
+    },
+    "omx-memory": {
+      "name": "omx memory (built-in MCP)",
+      "description": "Project cross-session memory persistence.",
+      "source": "oh-my-codex/src/mcp/memory-server.ts",
+      "harness": "omx"
+    }
+  },
+  "_note": "Only genuinely useful MCP servers in 'servers'. '_harness_builtin_reference' documents what omo/omx harnesses provide natively — not installable via this registry, but referenced for architecture comparison."
 }

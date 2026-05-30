@@ -51,6 +51,42 @@ Claude Code's ToolSearch mitigates this (95% reduction), but more servers = more
 
 ACP merged into Google A2A under Linux Foundation. For solo/small teams, A2A is irrelevant.
 
+## Harness Built-in Reference
+
+These are NOT standalone MCP servers — they're built into omo/omx harnesses. Listed for architecture reference.
+
+### omo (oh-my-openagent) — 5 built-in tools
+
+| Tool | Type | What it does |
+|---|---|---|
+| **grep** | Built-in | ripgrep binary auto-downloaded per OS. Structural search. |
+| **ast-grep** | MCP (stdio) | AST-level search/replace via `@ast-grep/napi`. Metavariable patterns. |
+| **LSP** | MCP (stdio) | Language server protocol — diagnostics, symbols, hover, references. |
+| **grep.app** | MCP (remote) | Global public code search across GitHub. `https://mcp.grep.app` |
+| **context7** | MCP (remote) | Same as standalone context7. |
+
+omo's 3-tier MCP: built-in → Claude Code `.mcp.json` → skill-embedded YAML
+
+### omx (oh-my-codex) — 6 built-in MCP servers
+
+| Server | What it does |
+|---|---|
+| **omx_code_intel** | 9 tools: tsc diagnostics, symbols, hover, grep references, ast-grep search/replace |
+| **omx_state** | Mode/workflow state management |
+| **omx_memory** | Cross-session project memory |
+| **omx_trace** | Agent flow timeline/stats |
+| **omx_wiki** | Persistent project knowledge base |
+| **omx_hermes** | Safe dispatch/status/artifacts coordination |
+
+Key insight: `omx_code_intel`'s `lsp_find_references` internally calls `grep -rn -w`. It wraps grep in structured interfaces, not replaces it.
+
+### Standalone from harness built-ins
+
+`grep.app` (omo default remote) can be installed standalone:
+```json
+{ "url": "https://mcp.grep.app/mcp" }
+```
+
 ## Adding a Server
 
 Only add servers that provide access to **external services CLI tools can't reach**. Submit a PR with:

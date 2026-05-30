@@ -150,8 +150,7 @@
       "tags": ["lsp", "diagnostics", "symbols"],
       "url": "https://github.com/code-yeongyu/oh-my-openagent/tree/main/packages/lsp-tools-mcp",
       "origin": "omo built-in (packages/lsp-tools-mcp)"
-    }
-  },
+    },
     "tavily": {
       "name": "Tavily Web Search",
       "description": "AI-optimized web search. Deeper than built-in WebSearch — returns structured extracts, not just links. Originally omo default remote.",

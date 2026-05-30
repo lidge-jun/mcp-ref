@@ -15,16 +15,16 @@ This registry only includes servers that provide access to **things CLI tools ca
 
 ## Current Servers (8)
 
-| Server | Why it's useful |
-|---|---|
-| **Context7** | Library docs lookup — prevents API hallucination |
-| **Playwright** | Browser automation via accessibility tree, not screenshots |
-| **Figma** | Bidirectional design-to-code |
-| **Sentry** | Error tracking — stack traces directly in agent |
-| **Supabase** | Database schema + SQL + type generation |
-| **Cloudflare** | 2,500+ endpoints with 99.9% token reduction (Code Mode) |
-| **Stripe** | Payment API docs search + integration helpers |
-| **Linear** | Issue tracking without context-switching |
+| Server | Description | Source |
+|---|---|---|
+| **Context7** | Library/framework docs lookup. Prevents API hallucination by fetching current docs. | [upstash/context7](https://github.com/upstash/context7) |
+| **Playwright** | Browser automation via accessibility tree (not screenshots). Cross-browser testing. | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) |
+| **Figma** | Bidirectional design-to-code. Read components/layout, write back to canvas. | [anthropics/mcp-server-figma](https://github.com/anthropics/mcp-server-figma) |
+| **Sentry** | Error tracking. Pull stack traces, error events. Paste issue ID -> agent writes fix. | [getsentry/sentry-mcp](https://github.com/getsentry/sentry-mcp) |
+| **Supabase** | Database schema, SQL execution, TypeScript type gen. Official Claude connector. | [supabase/mcp-server](https://github.com/supabase/mcp-server) |
+| **Cloudflare** | 2,500+ endpoints with 99.9% token reduction via Code Mode. Workers/KV/D1/R2. | [cloudflare/mcp-server-cloudflare](https://github.com/cloudflare/mcp-server-cloudflare) |
+| **Stripe** | Stripe API docs search + payment integration helpers. OAuth + restricted keys. | [stripe/agent-toolkit](https://github.com/stripe/agent-toolkit) |
+| **Linear** | Issue tracking. Manage issues/sprints/projects from agent. Saves context-switching. | [anthropics/mcp-server-linear](https://github.com/anthropics/mcp-server-linear) |
 
 ## Token Budget
 
@@ -92,3 +92,16 @@ Key insight: `omx_code_intel`'s `lsp_find_references` internally calls `grep -rn
 Only add servers that provide access to **external services CLI tools can't reach**. Submit a PR with:
 - `name`, `description` (one line explaining WHY it's useful, not just what it does)
 - `category`, `type`, `config`, `tags`, `url`
+
+## Sources
+
+Research and curation based on:
+- [MCP Token Cost Benchmark — 35x More Tokens Than CLI](https://onlycli.github.io/OnlyCLI/blog/mcp-token-cost-benchmark/)
+- [Is MCP Dead? (Charles Chen, 2026-03)](https://chrlschn.dev/blog/2026/03/mcp-is-dead-long-live-mcp/)
+- [Claude Code Skills vs MCP vs Plugins](https://www.morphllm.com/claude-code-skills-mcp-plugins)
+- [15 MCP Servers Worth Installing (Codersera, 2026)](https://codersera.com/blog/best-mcp-servers-claude-code-cursor-2026/)
+- [Cloudflare Code Mode MCP — 99.9% Token Reduction (InfoQ)](https://www.infoq.com/news/2026/04/cloudflare-code-mode-mcp-server/)
+- [Supabase Official Claude Connector (2026-02)](https://supabase.com/blog/supabase-is-now-an-official-claude-connector)
+- [ACP vs MCP Protocol Comparison (Context Studios)](https://www.contextstudios.ai/blog/acp-vs-mcp-the-protocol-war-that-will-define-ai-coding-in-2026)
+- [MCP 2.0 Spec Changes (Claude Marketplace)](https://www.claudemarketplace.net/digest/mcp-2-everything-developers-need-to-know)
+- Harness source analysis: [oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent), [oh-my-codex](https://github.com/code-yeongyu/oh-my-codex) (2026-05-29 corpus)

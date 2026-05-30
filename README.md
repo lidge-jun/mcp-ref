@@ -13,18 +13,21 @@ Most MCP servers are useless in 2026. CLI tools and skills replaced them:
 
 This registry only includes servers that provide access to **things CLI tools cannot replicate**.
 
-## Current Servers (8)
+## Current Servers (11)
 
-| Server | Description | Source |
-|---|---|---|
-| **Context7** | Library/framework docs lookup. Prevents API hallucination by fetching current docs. | [upstash/context7](https://github.com/upstash/context7) |
-| **Playwright** | Browser automation via accessibility tree (not screenshots). Cross-browser testing. | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) |
-| **Figma** | Bidirectional design-to-code. Read components/layout, write back to canvas. | [anthropics/mcp-server-figma](https://github.com/anthropics/mcp-server-figma) |
-| **Sentry** | Error tracking. Pull stack traces, error events. Paste issue ID -> agent writes fix. | [getsentry/sentry-mcp](https://github.com/getsentry/sentry-mcp) |
-| **Supabase** | Database schema, SQL execution, TypeScript type gen. Official Claude connector. | [supabase/mcp-server](https://github.com/supabase/mcp-server) |
-| **Cloudflare** | 2,500+ endpoints with 99.9% token reduction via Code Mode. Workers/KV/D1/R2. | [cloudflare/mcp-server-cloudflare](https://github.com/cloudflare/mcp-server-cloudflare) |
-| **Stripe** | Stripe API docs search + payment integration helpers. OAuth + restricted keys. | [stripe/agent-toolkit](https://github.com/stripe/agent-toolkit) |
-| **Linear** | Issue tracking. Manage issues/sprints/projects from agent. Saves context-switching. | [anthropics/mcp-server-linear](https://github.com/anthropics/mcp-server-linear) |
+| Server | Description | Source | Origin |
+|---|---|---|---|
+| **Context7** | Library/framework docs lookup. Prevents API hallucination. | [upstash/context7](https://github.com/upstash/context7) | |
+| **Playwright** | Browser automation via accessibility tree. Cross-browser testing. | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) | |
+| **Figma** | Bidirectional design-to-code. Read/write Figma canvas. | [anthropics/mcp-server-figma](https://github.com/anthropics/mcp-server-figma) | |
+| **Sentry** | Error tracking. Stack traces -> agent writes fix. | [getsentry/sentry-mcp](https://github.com/getsentry/sentry-mcp) | |
+| **Supabase** | Database schema + SQL + TypeScript type gen. | [supabase/mcp-server](https://github.com/supabase/mcp-server) | |
+| **Cloudflare** | 2,500+ endpoints, 99.9% token reduction (Code Mode). | [cloudflare/mcp-server-cloudflare](https://github.com/cloudflare/mcp-server-cloudflare) | |
+| **Stripe** | Stripe API docs search + payment helpers. | [stripe/agent-toolkit](https://github.com/stripe/agent-toolkit) | |
+| **Linear** | Issue tracking from agent. Saves context-switching. | [anthropics/mcp-server-linear](https://github.com/anthropics/mcp-server-linear) | |
+| **grep.app** | Global GitHub code search. Find real-world implementations. | [grep.app](https://grep.app) | omo built-in |
+| **ast-grep** | AST structural code search/replace. Language-aware patterns. | [ast-grep](https://github.com/ast-grep/ast-grep) | omo built-in |
+| **LSP Tools** | Code intelligence — diagnostics, symbols, hover, references. | [lsp-tools-mcp](https://github.com/code-yeongyu/oh-my-openagent/tree/main/packages/lsp-tools-mcp) | omo built-in |
 
 ## Token Budget
 
@@ -51,41 +54,21 @@ Claude Code's ToolSearch mitigates this (95% reduction), but more servers = more
 
 ACP merged into Google A2A under Linux Foundation. For solo/small teams, A2A is irrelevant.
 
-## Harness Built-in Reference
+## Harness Origins
 
-These are NOT standalone MCP servers — they're built into omo/omx harnesses. Listed for architecture reference.
+Three servers (grep.app, ast-grep, LSP Tools) originated as omo (oh-my-openagent) built-ins but are **standalone installable** via this registry.
 
-### omo (oh-my-openagent) — 5 built-in tools
+### omo (oh-my-openagent) architecture
 
-| Tool | Type | What it does |
-|---|---|---|
-| **grep** | Built-in | ripgrep binary auto-downloaded per OS. Structural search. |
-| **ast-grep** | MCP (stdio) | AST-level search/replace via `@ast-grep/napi`. Metavariable patterns. |
-| **LSP** | MCP (stdio) | Language server protocol — diagnostics, symbols, hover, references. |
-| **grep.app** | MCP (remote) | Global public code search across GitHub. `https://mcp.grep.app` |
-| **context7** | MCP (remote) | Same as standalone context7. |
+omo uses a 3-tier MCP system: built-in → Claude Code `.mcp.json` → skill-embedded YAML.
+Its built-in tools include ripgrep (auto-downloaded binary), ast-grep MCP, LSP MCP, grep.app (remote), and context7.
 
-omo's 3-tier MCP: built-in → Claude Code `.mcp.json` → skill-embedded YAML
+### omx (oh-my-codex) architecture
 
-### omx (oh-my-codex) — 6 built-in MCP servers
+omx provides 6 built-in MCP servers (state, memory, code-intel, trace, wiki, hermes).
+`omx_code_intel` wraps tsc/ast-grep/grep behind 9 structured tools — `lsp_find_references` internally calls `grep -rn -w`.
 
-| Server | What it does |
-|---|---|
-| **omx_code_intel** | 9 tools: tsc diagnostics, symbols, hover, grep references, ast-grep search/replace |
-| **omx_state** | Mode/workflow state management |
-| **omx_memory** | Cross-session project memory |
-| **omx_trace** | Agent flow timeline/stats |
-| **omx_wiki** | Persistent project knowledge base |
-| **omx_hermes** | Safe dispatch/status/artifacts coordination |
-
-Key insight: `omx_code_intel`'s `lsp_find_references` internally calls `grep -rn -w`. It wraps grep in structured interfaces, not replaces it.
-
-### Standalone from harness built-ins
-
-`grep.app` (omo default remote) can be installed standalone:
-```json
-{ "url": "https://mcp.grep.app/mcp" }
-```
+Key insight: these harnesses don't replace grep — they wrap it in structured interfaces (symbols, AST, diagnostics).
 
 ## Adding a Server
 

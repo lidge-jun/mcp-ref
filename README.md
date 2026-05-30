@@ -13,7 +13,7 @@ Most MCP servers are useless in 2026. CLI tools and skills replaced them:
 
 This registry only includes servers that provide access to **things CLI tools cannot replicate**.
 
-## Current Servers (11)
+## Current Servers (13)
 
 | Server | Description | Source | Origin |
 |---|---|---|---|
@@ -28,6 +28,8 @@ This registry only includes servers that provide access to **things CLI tools ca
 | **grep.app** | Global GitHub code search. Find real-world implementations. | [grep.app](https://grep.app) | omo built-in |
 | **ast-grep** | AST structural code search/replace. Language-aware patterns. | [ast-grep](https://github.com/ast-grep/ast-grep) | omo built-in |
 | **LSP Tools** | Code intelligence — diagnostics, symbols, hover, references. | [lsp-tools-mcp](https://github.com/code-yeongyu/oh-my-openagent/tree/main/packages/lsp-tools-mcp) | omo built-in |
+| **Tavily** | AI-optimized web search. Deeper structured extracts, not just links. | [tavily.com](https://tavily.com) | omo built-in |
+| **Exa Search** | AI-native semantic search. Find similar pages, neural web search. | [exa.ai](https://exa.ai) | omo built-in |
 
 ## Token Budget
 

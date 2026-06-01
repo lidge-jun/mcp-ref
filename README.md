@@ -1,82 +1,192 @@
+<p align="center">
+  <strong>mcp-ref</strong><br>
+  Curated MCP server registry for cli-jaw.
+</p>
+
+<p align="center">
+  <a href="https://github.com/lidge-jun/mcp-ref/actions/workflows/ci.yml"><img src="https://github.com/lidge-jun/mcp-ref/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/lidge-jun/mcp-ref/actions/workflows/pages.yml"><img src="https://github.com/lidge-jun/mcp-ref/actions/workflows/pages.yml/badge.svg" alt="Pages"></a>
+  <img src="https://img.shields.io/badge/registry-v3-2563eb" alt="Registry version 3">
+  <img src="https://img.shields.io/badge/servers-13-111827" alt="13 curated servers">
+</p>
+
+---
+
 # mcp-ref
 
-Curated MCP server registry for cli-jaw. **Only genuinely useful servers** — no redundant wrappers.
+`mcp-ref` is a small, opinionated MCP registry for `cli-jaw`. It keeps only
+servers that give agents access to surfaces ordinary CLI tools cannot replace:
+current library docs, real browsers, design canvases, observability systems,
+databases, payment platforms, issue trackers, cloud APIs, semantic search, and
+language-server intelligence.
 
-## Philosophy
+The registry is intentionally not a comprehensive catalog. It is a curated
+allowlist for low-noise agent setups.
 
-Most MCP servers are useless in 2026. CLI tools and skills replaced them:
-- Filesystem MCP? CLI has sandboxed file access.
-- Git MCP? `git` CLI is built in.
-- Web search MCP? WebSearch is built in.
-- Memory MCP? CLAUDE.md / memory files.
-- Sequential thinking? Extended thinking is built in.
+## Public Surface
 
-This registry only includes servers that provide access to **things CLI tools cannot replicate**.
+| Surface | Status |
+|---------|--------|
+| Registry | `/registry.json`, version 3, 13 server entries |
+| README | Philosophy, server table, install policy, verification policy |
+| GitHub Pages | `/docs/index.html` static landing page, ready for Pages deployment |
+| CI | JSON validation, count drift checks, README/docs link checks |
+| License | No root license file is currently declared |
 
-## Current Servers (13)
+Remote Pages state: GitHub Pages is not enabled for this repository yet
+(`GET /repos/lidge-jun/mcp-ref/pages` returns 404). The added workflow deploys
+`/docs` after an authorized push.
 
-| Server | Description | Source | Origin |
-|---|---|---|---|
-| **Context7** | Library/framework docs lookup. Prevents API hallucination. | [upstash/context7](https://github.com/upstash/context7) | |
-| **Playwright** | Browser automation via accessibility tree. Cross-browser testing. | [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) | |
-| **Figma** | Bidirectional design-to-code. Read/write Figma canvas. | [anthropics/mcp-server-figma](https://github.com/anthropics/mcp-server-figma) | |
-| **Sentry** | Error tracking. Stack traces -> agent writes fix. | [getsentry/sentry-mcp](https://github.com/getsentry/sentry-mcp) | |
-| **Supabase** | Database schema + SQL + TypeScript type gen. | [supabase/mcp-server](https://github.com/supabase/mcp-server) | |
-| **Cloudflare** | 2,500+ endpoints, 99.9% token reduction (Code Mode). | [cloudflare/mcp-server-cloudflare](https://github.com/cloudflare/mcp-server-cloudflare) | |
-| **Stripe** | Stripe API docs search + payment helpers. | [stripe/agent-toolkit](https://github.com/stripe/agent-toolkit) | |
-| **Linear** | Issue tracking from agent. Saves context-switching. | [anthropics/mcp-server-linear](https://github.com/anthropics/mcp-server-linear) | |
-| **grep.app** | Global GitHub code search. Find real-world implementations. | [grep.app](https://grep.app) | omo built-in |
-| **ast-grep** | AST structural code search/replace. Language-aware patterns. | [ast-grep](https://github.com/ast-grep/ast-grep) | omo built-in |
-| **LSP Tools** | Code intelligence — diagnostics, symbols, hover, references. | [lsp-tools-mcp](https://github.com/code-yeongyu/oh-my-openagent/tree/main/packages/lsp-tools-mcp) | omo built-in |
-| **Tavily** | AI-optimized web search. Deeper structured extracts, not just links. | [tavily.com](https://tavily.com) | omo built-in |
-| **Exa Search** | AI-native semantic search. Find similar pages, neural web search. | [exa.ai](https://exa.ai) | omo built-in |
+## Why This Exists
 
-## Token Budget
+Every MCP server adds prompt, permission, and maintenance surface. Many servers
+duplicate what a coding CLI already has: filesystem access, `git`, `gh`, web
+fetching, memory files, or extended reasoning.
 
-Each MCP server adds ~500-1,000 tokens to context. Recommended max: **3-4 servers**.
+`mcp-ref` filters for a narrower rule:
 
-Claude Code's ToolSearch mitigates this (95% reduction), but more servers = more noise.
+> Include an MCP server only when it unlocks an external capability the local
+> CLI cannot faithfully reproduce.
 
-## Not Included (and why)
+That keeps the agent context smaller and the tool list easier to reason about.
 
-| Server | Why skipped |
-|---|---|
-| Filesystem | CLI built-in |
-| Git/GitHub | `git`/`gh` CLI built-in |
-| Web search (Brave, Exa) | WebSearch built-in |
-| Fetch | WebFetch built-in |
-| Memory | CLAUDE.md / memory files |
-| Sequential Thinking | Extended thinking built-in |
-| Community wrappers | 36.7% have SSRF vulnerabilities |
+## Registry Snapshot
 
-## MCP vs ACP
+| Server | Category | Why it stays |
+|--------|----------|--------------|
+| Context7 | development | Current library/framework documentation lookup |
+| Playwright | testing | Browser automation through accessibility and DOM state |
+| Figma | design | Bidirectional design canvas access |
+| Sentry | development | Production error traces and frequency data |
+| Supabase | database | Schema exploration, SQL, and type generation |
+| Cloudflare (Code Mode) | cloud | Large Cloudflare API surface with compact tool access |
+| Stripe | development | Payments API docs and helper workflows |
+| Linear | productivity | Issue and project context from the tracker |
+| grep.app | search | Global GitHub code search |
+| ast-grep | development | AST-aware structural search and rewrite |
+| LSP Tools | development | Diagnostics, symbols, hover, references |
+| Tavily Web Search | search | Structured web extraction for agent workflows |
+| Exa Search | search | Semantic web search and related-page discovery |
 
-- **MCP** = agent-to-tool (query database, browse web)
-- **ACP/A2A** = agent-to-agent (delegate to another agent)
+## Quickstart
 
-ACP merged into Google A2A under Linux Foundation. For solo/small teams, A2A is irrelevant.
+Clone the registry:
 
-## Harness Origins
+```bash
+git clone https://github.com/lidge-jun/mcp-ref.git
+cd mcp-ref
+```
 
-Five servers (grep.app, ast-grep, LSP Tools, Tavily, Exa) originated as omo (oh-my-openagent) built-ins but are **standalone installable** via this registry.
+Inspect the catalog:
 
-omo uses a 3-tier MCP system: built-in → Claude Code `.mcp.json` → skill-embedded YAML.
+```bash
+jq '.version, (.servers | keys)' registry.json
+jq -r '.servers | to_entries[] | [.key, .value.category, .value.type] | @tsv' registry.json
+```
+
+Use one entry in your global MCP configuration. Do not copy every server by
+default. Start with one server, verify it is actually used, then add another.
+
+Example: Context7 entry from the registry:
+
+```bash
+jq '.servers.context7.config' registry.json
+```
+
+## Registry Schema
+
+Each server entry is keyed by a stable lowercase id:
+
+```json
+{
+  "name": "Context7",
+  "description": "Library/framework docs lookup...",
+  "category": "development",
+  "type": "local",
+  "config": {
+    "command": "npx",
+    "args": ["-y", "@upstash/context7-mcp"]
+  },
+  "tags": ["docs", "library"],
+  "url": "https://github.com/upstash/context7"
+}
+```
+
+Required fields:
+
+| Field | Purpose |
+|-------|---------|
+| `name` | Human-readable server name |
+| `description` | One-line reason the server is useful |
+| `category` | Broad routing group |
+| `type` | `local` or `remote` |
+| `config` | Launch or connection hints |
+| `tags` | Short discovery labels |
+| `url` | Source or service URL |
+
+## Selection Policy
+
+Include a server when it meets at least one of these criteria:
+
+- It reaches an authenticated external system.
+- It exposes live state a CLI cannot infer.
+- It reduces a high-volume API surface to a compact workflow.
+- It provides structural code/design intelligence, not just text search.
+- It has a credible upstream and a clear maintenance path.
+
+Do not include wrappers for:
+
+| Server class | Reason |
+|--------------|--------|
+| Filesystem | Coding CLIs already have sandboxed file access |
+| Git | `git` is already available |
+| GitHub basics | `gh` is already available |
+| Fetch-only servers | Web fetch/search tools already cover this |
+| Memory-only servers | Project memory files are simpler and inspectable |
+| Reasoning helpers | Modern models already support extended reasoning |
+| Thin community wrappers | Higher supply-chain and SSRF risk for little gain |
+
+## Verification Policy
+
+Local checks:
+
+```bash
+jq empty registry.json
+jq -e '.version == 3 and (.servers | length == 13)' registry.json
+git diff --check
+```
+
+Static documentation checks should confirm:
+
+- README server count matches `registry.json`.
+- `/docs/index.html` has canonical, Open Graph, and Twitter metadata.
+- Local assets referenced by docs exist.
+- Workflow files validate JSON and documentation drift before deploy.
+
+Remote CI signal: this repository currently has no completed Actions history.
+The added `CI` and `Pages` workflows will run after an authorized push.
+
+## Security Notes
+
+- Tokens in `registry.json` are placeholders such as `YOUR_TOKEN`; do not commit
+  real credentials.
+- Prefer global user-level MCP configuration over project-local `.mcp.json`.
+- Treat every MCP server as a new trust boundary: inspect upstream source,
+  required scopes, and network behavior before enabling it.
+- Keep the active MCP set small. Most projects should run no more than three or
+  four MCP servers at once.
 
 ## Adding a Server
 
-Only add servers that provide access to **external services CLI tools can't reach**. Submit a PR with:
-- `name`, `description` (one line explaining WHY it's useful, not just what it does)
-- `category`, `type`, `config`, `tags`, `url`
+1. Confirm the server provides a capability the CLI cannot already perform.
+2. Add one entry under `servers` in `registry.json`.
+3. Keep the `description` focused on why the server is useful.
+4. Run the local verification commands above.
+5. Update README and Pages copy if the count, categories, or positioning change.
 
 ## Sources
 
-Research and curation based on:
-- [MCP Token Cost Benchmark — 35x More Tokens Than CLI](https://onlycli.github.io/OnlyCLI/blog/mcp-token-cost-benchmark/)
-- [Is MCP Dead? (Charles Chen, 2026-03)](https://chrlschn.dev/blog/2026/03/mcp-is-dead-long-live-mcp/)
-- [Claude Code Skills vs MCP vs Plugins](https://www.morphllm.com/claude-code-skills-mcp-plugins)
-- [15 MCP Servers Worth Installing (Codersera, 2026)](https://codersera.com/blog/best-mcp-servers-claude-code-cursor-2026/)
-- [Cloudflare Code Mode MCP — 99.9% Token Reduction (InfoQ)](https://www.infoq.com/news/2026/04/cloudflare-code-mode-mcp-server/)
-- [Supabase Official Claude Connector (2026-02)](https://supabase.com/blog/supabase-is-now-an-official-claude-connector)
-- [ACP vs MCP Protocol Comparison (Context Studios)](https://www.contextstudios.ai/blog/acp-vs-mcp-the-protocol-war-that-will-define-ai-coding-in-2026)
-- [MCP 2.0 Spec Changes (Claude Marketplace)](https://www.claudemarketplace.net/digest/mcp-2-everything-developers-need-to-know)
-- Harness source analysis: [oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent), [oh-my-codex](https://github.com/code-yeongyu/oh-my-codex) (2026-05-29 corpus)
+The current curation was informed by MCP token-cost discussions, Cloudflare Code
+Mode coverage, Supabase and Context7 connector patterns, and source analysis of
+the `oh-my-openagent` / `oh-my-codex` harnesses. Treat this repo as a living
+curation layer, not as a neutral directory.

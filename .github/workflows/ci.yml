@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: mcp-ref-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate registry JSON
+        run: |
+          jq empty registry.json
+          jq -e '.version == 3 and (.servers | length == 13)' registry.json
+          jq -e '.servers | to_entries[] | select(.value.name and .value.description and .value.category and .value.type and .value.config and .value.tags and .value.url)' registry.json >/dev/null
+      - name: Check README and Pages drift
+        run: |
+          grep -q "13 server" README.md
+          grep -q "registry-v3" README.md
+          grep -q "rel=\"canonical\"" docs/index.html
+          grep -q "property=\"og:image\"" docs/index.html
+          grep -q "name=\"twitter:card\"" docs/index.html
+          test -f docs/assets/favicon.svg
+          test -f docs/assets/social-preview.svg
+      - name: Whitespace check
+        run: git diff --check

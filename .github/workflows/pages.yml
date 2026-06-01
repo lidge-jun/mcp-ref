@@ -1,0 +1,38 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: mcp-ref-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Validate static page
+        run: |
+          test -f docs/index.html
+          test -f docs/assets/favicon.svg
+          test -f docs/assets/social-preview.svg
+          grep -q "Curated MCP Server Registry" docs/index.html
+          grep -q "https://lidge-jun.github.io/mcp-ref/" docs/index.html
+          git diff --check
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
